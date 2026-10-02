@@ -1,4 +1,7 @@
+from asyncio import QueueEmpty
+
 from django.db import transaction
+from django.db.models import QuerySet
 from db.models import Movie
 
 
@@ -8,7 +11,7 @@ def create_movie(
     movie_description: str,
     genres_ids: list[int] | None = None,
     actors_ids: list[int] | None = None,
-) -> Movie:
+) -> QueueEmpty[Movie]:
     movie = Movie.objects.create(
         title=movie_title,
         description=movie_description,
@@ -27,7 +30,7 @@ def get_movies(
     genres_ids: list[int] | None = None,
     actors_ids: list[int] | None = None,
     title: str | None = None,
-):
+) -> QuerySet[Movie]:
     queryset = Movie.objects.all()
 
     if title:
